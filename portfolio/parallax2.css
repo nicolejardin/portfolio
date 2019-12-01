@@ -1,0 +1,103 @@
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  display: block;
+  width: 100%;
+  left: -10%;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.bgimg-1 {
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('projects.jpeg');
+  height: 550px;
+  background-size: cover; 
+}
+
+.bgimg-2 {
+  background:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('received_2435984686718007.png');
+  height: 550px;
+  background-size: cover; 
+
+}
+
+.bgimg-3 {
+  background:linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('programs.jpeg');
+  height: 550px;
+  background-size: cover; 
+
+}
+
+.caption span.border a {
+  color: #FFF;
+  top: 20px;
+  left: -25px;
+  margin-bottom: 10px; 
+  padding: 10px 30px;
+  border: solid 2px #FFF;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 15px;
+  text-align: center;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  line-height: 30px;
+  position: relative;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.caption span.border a:hover {
+  background: rgba(0,0,0,0.5);
+  text-decoration: none;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+
+.caption {
+  position: relative;
+  left: 0;
+  padding-top: 18%;
+  text-align: center;
+  color: #000;
+}
+
+.caption span.border {
+  color: #FFF;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+
+
+h3 {
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font: 20px "Montserrat", sans-serif;
+  color: #212121;
+}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1024px) {
+  .bgimg-1, .bgimg-2, .bgimg-3 {
+    background-attachment: scroll;
+  }
+}
+
+/* addtnl code */
+
+#lagayan {
+  height: 480px;
+  width: auto;
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) );
+  margin: 0px;
+  display: inline-block;
+
+}
+
+
+
+
+

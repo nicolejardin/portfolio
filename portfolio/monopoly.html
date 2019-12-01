@@ -1,0 +1,260 @@
+import java.util.*;
+import java.lang.*;
+
+/*this game is only good for 2 players
+ *text-based mini monopoly game
+ *with less rules lol
+ **/
+
+public class Monopolyyy {
+	Scanner in = new Scanner(System.in);
+	int i, j, k, l, x, dice, yes, perform, sell;
+	int choice[] = new int[2];
+	int ownedPrice[][] = new int[2][9];
+	int lastPosition[] = {1,1};
+	int money[] = {1500, 1500};
+	int assets[] = {0,0,0};
+	int price[] = {0, 300, 400, 500, 1000, 250, 150, 420, 700, 200, 80, 340, 260, 110, 270, 0};
+	String owned[][] = new String[2][8];
+	String players[] = new String[2];
+	String temp[] = new String[2];
+	String pAvatars[] = {"Pedicab", "Tricycle", "Kalesa", "Puting Ilaw"};
+	String land[] = {"Start ","City Hall", "Prime Hotel", "University of the Cordilleras", "SM Baguio", "Burnham Park", 
+					"Strawberry Farm", "Center Mall", "Porta Vaga", "Sunshine", "Tiongsan", "Session Rd", "Cedar Peak", "Hodori", "Market",
+					"Jail"};	
+
+	public static void main(String[] args) {
+		try {
+		Monopolyyy mp = new Monopolyyy
+			();
+		int money[] = {1500, 1500};
+		System.out.print("==========MONOPOLY==========\n");
+		mp.avatar();
+		do {
+			mp.move(0);
+			mp.move(1);
+			} while (true);
+		mp.exitGame();
+		} catch (Exception e) {
+		System.out.println("\n\n $ $ $ error $ $ $");
+		}
+		}
+	
+	public void avatar() {
+		for (i = 0; i < players.length; i++) {
+			System.out.println("\nChoose an avatar for Player " + (i+1) + ":");
+			for (j = 0; j < pAvatars.length; j++) {
+				System.out.println("[" + (j+1) + "] " + pAvatars[j]);
+				} choice[i] = in.nextInt();
+			}
+		for (k = 0; k < players.length; k++) {
+			players[k] = pAvatars[choice[k]-1];
+			System.out.println("\nPlayer " + (k+1) + ": " + players[k]);
+			} if (players[0].equals(players[1])) {
+				System.out.println("\n\nPlease try again.");
+				avatar();
+				}
+		System.out.println("\n====================");
+	}
+	public int rollDice(){
+		Random rand = new Random();
+		System.out.println("\n\n====Press any number to roll dice!====");
+		yes = in.nextInt();
+		if (yes != -1) 
+			dice = rand.nextInt(6)+1;
+			System.out.println("You got: " + dice);
+	   		return dice;
+		}		
+	public void move(int i) {
+		System.out.println("\n===" + players[i] + "'s turn!===");
+		lastPosition[i] = lastPosition[i] + rollDice();
+		System.out.println("\nYou're at [" + lastPosition[i] + "]");	
+		if (lastPosition[i] > 15) {
+		 lastPosition[i] = lastPosition[i] - 15;
+		 System.out.println("\n" + players[i] + " landed on " + land[lastPosition[i]]); 
+		 action(i);
+		} else if (land[lastPosition[i]].equals(land[1]) || lastPosition[i] == 1) {
+			System.out.println("\n START ");
+			move(i);
+		} else if  (land[lastPosition[i]].equals("\nJail")){
+			lastPosition[i] = lastPosition[i] - 15;
+			jail(i);
+			action(i);
+		} else if (lastPosition[i] > 1) {
+			System.out.println(players[i] + " landed on " + land[lastPosition[i]]);
+			action(i);
+		System.out.println("\n=========================");
+		} else if (lastPosition[i] == lastPosition[j]) {
+			if (i == 1) {
+			j = i - 1;
+			} else j = i + 1;
+			if (checkOwn(i,j)) {
+			rent(i);
+			}
+			}
+		}
+	
+	public void jail(int i) {
+		if (i == 1) {
+			j = i - 1;
+			} else j = i + 1;
+		System.out.println("\nYou're in jail! Stay for another turn.");
+		move(j);
+		}
+	public void remainingMoney() {
+		for (i = 0; i < players.length; i++) 
+			System.out.println("\n" + players[i] + " remaining money: $" + money[i]);
+		} 	
+	//checks if land is already owned by other player
+	public boolean checkOwn(int x,int y) {
+		for (j = 0; j < assets[x]; j++) {
+			if (land[lastPosition[x]].equals(owned[y][j]))
+			return true;
+			} return false;
+		}
+	//checks if land is already owned by the player
+	public boolean owner(int x) {
+		for (j = 0; j < assets[x]; j++) {
+			if (land[lastPosition[x]].equals(owned[x][j]))
+			return true;
+			} return false;
+		}
+	public void buyProperty(int i) {
+		if (i == 1) {
+			j = i - 1;
+		} else j = i + 1;
+		System.out.println("\n" + land[lastPosition[i]] + " costs $" + price[lastPosition[i]] + ". Do you want to buy it?"
+		+ "\n[1] Yes\n[2] No");
+		yes = in.nextInt();
+		if (money[i] <  price[lastPosition[i]]) {
+			System.out.println("You can't buy that.");
+			move(j);
+		} else if (money[i] >  price[lastPosition[i]]) {
+			if (yes == 1) {
+			assets[i]++;
+			owned[i][assets[i]-1] = land[lastPosition[i]];
+			ownedPrice[i][assets[i]-1] = price[lastPosition[i]];
+			money[i] = money[i] - price[lastPosition[i]];
+			if (money[i] <= 0)
+			exitGame();
+		} else if (yes == 2) {
+			move(j);
+			remainingMoney();
+		}
+		}
+	}
+	public void action(int i) {
+		if (i == 1) {
+			j = i - 1;
+			} else j = i + 1;
+		if (checkOwn(i, j)) {
+			rent(i);
+		} else if (owner(i)) {
+			upgrade(i);
+		} else {
+			System.out.println("\n\nBuy property?\n[1] Yes\n[2] No\n");
+			perform = in.nextInt();
+		if (perform == 1) {
+			buyProperty(i);
+		} else if (perform == 2) {
+			}
+		}
+		if (assets[i] >= 3) {
+			if (i == 1) {
+				j = i - 1;
+			} else j = i + 1;
+			System.out.println("\nDo you want to sell a property?\n[1] Yes\n[2] No\n");
+			yes = in.nextInt();
+			switch(yes) {
+				case 1: sellProperty(i);
+				break;
+				case 2: move(j);
+				break;
+				}
+			}
+		displayProperties(i);
+		}
+	public void displayProperties(int i) {
+		System.out.println("\n===" + players[i] + " properties: ===" );
+		for (j = 0; j < assets[i]; j++) {
+			System.out.print("\n[" + (j + 1) + "] " + owned[i][j] + " $" + ownedPrice[i][j]\n\n);
+			} 
+		}
+	public void sellProperty(int i) {
+		if (i == 1) {
+			l = i - 1;
+		} else l = i + 1;
+			System.out.println("\n" + players[i] + ", which of these properties do you want to sell?");
+		displayProperties(i);
+		sell = in.nextInt();
+		System.out.println("\nSell " + owned[i][sell-1] + " for $" + (ownedPrice[i][sell-1]-50)
+			+ "\n[1] Yes\n[2] No");
+		yes = in.nextInt();
+		if (yes == 1) {
+			System.out.println("\n" + players[l] + ", do you want to buy " + owned[i][sell-1] + "?\n[1] Yes\n[2] No");
+			int buy = in.nextInt();
+			if(buy == 1) {
+				if (money[l] > (ownedPrice[i][sell]-50)) {				
+					System.out.println("\n" + players[l] + " has successfully bought " + owned[i][sell-1]);
+					money[l] = money[l] - (ownedPrice[i][sell-1]-50);
+					money[i] = money[i] + (ownedPrice[i][sell-1]-50);
+						money[i] = money[i] - price[lastPosition[i]];
+					assets[l] = assets[l] + 1;
+					owned[l][assets[l]-1] = owned[i][sell-1];
+					ownedPrice[l][assets[l]-1] = (ownedPrice[i][sell-1]-50);
+					assets[i]= assets[i] - 1;
+					for (x = 0; x < assets[i]; x++){
+						if (owned[i][x].equals(owned[i][sell-1])) {
+							owned[i][x] = owned[i][assets.length-1];
+							} else if (x > 0 && x != assets[sell]) {
+								owned[i][x] = owned[i][x-1];	
+								ownedPrice[i][x] = ownedPrice[i][x-1];						
+						}
+					}
+					if (money[i] <= 0 && money[l] <= 0)
+					exitGame();
+				} else System.out.println("\n\nTransaction failed.");
+			} else if (buy == 2) System.out.println("\n" + players[i] + "failed to sell " + owned[i][sell-1] + ".");
+			remainingMoney();
+		} else if (yes == 2) System.out.println("\nTransaction cancelled.");
+	}
+	public void rent(int i) {
+		if (i == 1) j = i - 1;
+	    else j = i + 1;
+		System.out.println("\n========PAY RENT========\n" + land[lastPosition[i]] + " belongs to " + players[j] + "\n");
+		int rentCost = (int)Math.round(price[lastPosition[i]]*0.2);
+		remainingMoney();
+		System.out.println("\n======Pay rent " + land[lastPosition[i]] + " for $" + rentCost + ".======");
+		money[i] = money[i] - rentCost;
+		money[j] = money[j] + rentCost;
+		if (money[i] <= 0)
+			exitGame();
+		remainingMoney();
+		move(j);
+		} 
+	public void upgrade(int i) {
+		int up = 1, upgradeCost = 100;
+		if (i == 1) j = i - 1;
+	    else j = i + 1;
+		if (land[lastPosition[i]].equals("Start")) {
+			move(j);
+			} else System.out.println("\nUpgrade (increase rent rate of) " + land[lastPosition[i]] + " for $" + (upgradeCost*up) + "\n[1] Yes\n[2] No");
+			yes = in.nextInt();
+			if (yes == 1) {
+				price[lastPosition[i]] = price[lastPosition[i]] + upgradeCost;
+				up++;
+				if (money[i] <= 0)
+				exitGame();
+			} else System.out.println("\n====Okay.====");
+		}
+	public void exitGame() {
+		String winner;
+		if (money[0] > money[1]) 
+			 winner = players[0];
+		else winner = players[1];
+		remainingMoney();
+		System.out.println("\n\n" + winner + " won the game. Congrats! $$$$\n\n\n======Exit the game?======\n[1] Yes\n[0] No");
+		int cont = in.nextInt();
+		if (cont == 1) System.exit(0);
+		}
+}

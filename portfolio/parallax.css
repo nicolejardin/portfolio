@@ -1,0 +1,70 @@
+.bgimg-1, .bgimg-2, .bgimg-3 {
+  display: inline-block;
+  width: 100%;
+  left: -10%;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.bgimg-1 {
+  background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('art.jpeg');
+  height: 550px;
+  background-size: cover;
+
+}
+
+.bgimg-2 {
+  background:linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("resume.jpg");
+  height: 550px;
+  background-size: cover;
+}
+
+.bgimg-3 {
+  background-image: url("img_parallax3.jpg");
+  height: 550px;
+}
+
+
+
+.caption {
+  position: relative;
+  left: 0;
+  padding: 18%;
+  text-align: center;
+  color: #000;
+}
+
+.caption span.border {
+  color: #FFF;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+
+
+.resumelol {
+  position: relative; 
+  width: 100%;
+  left: 23%;
+  top: 30px;
+  align-content: center;
+  z-index: 5;
+}
+.resumelol iframe {
+  display: flex;
+  flex-direction: column;
+   }
+
+h3 {
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font: 20px "Montserrat", sans-serif;
+  color: #212121;
+}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1024px) {
+  .bgimg-1, .bgimg-2, .bgimg-3 {
+    background-attachment: scroll;
+  }
+}
